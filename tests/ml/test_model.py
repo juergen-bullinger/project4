@@ -10,10 +10,10 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics import accuracy_score
 
-import src.config as cfg
-from src import utils
-from src.ml import data
-from src.ml import model
+import config as cfg
+import utils
+from ml import data
+from ml import model
 
 import pytest
 
@@ -54,7 +54,7 @@ def prepared_data():
     sio = io.StringIO(DATASTR)
     df = pd.read_csv(
         sio,
-        sep=',\s*', 
+        sep=', *', 
         encoding="utf-8", 
         engine="python",
         na_values={"?",}
@@ -126,7 +126,7 @@ def test_compute_model_metrics(prepared_data):
     assert recall == 1.0
     assert fbeta == 1.0
     
-    model.compute_model_metrics(y_true, y_wrong)
+    precision, recall, fbeta = model.compute_model_metrics(y_true, y_wrong)
     assert precision == 0.0
     assert recall == 0.0
     assert fbeta == 0.0
