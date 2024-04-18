@@ -6,7 +6,7 @@ For additional information see the Model Card paper: https://arxiv.org/pdf/1810.
 This model was created by Jürgen Bullinger for the Udacity Capstone project for course 4 of the MLOps Certificate.
 It uses a RandomForestClassifier with a maximum of 100 estimators (as in the default) and to avoid overfitting, max_depth was set to 3 and min_samples_leaf was set to 5.
 These are guessed values. These values could be optimized by e.g. a grid search.
-The model is stored in model/model.pkl
+The model is stored in model/model.pkl´
 
 ## Intended Use
 Predict the income class of the citizens according to the response they give in the census.
@@ -55,7 +55,7 @@ https://archive.ics.uci.edu/dataset/20/census+income
 ## Evaluation Data
 
 ## Metrics
-_Please include the metrics used and your model's performance on those metrics._
+The model is evaluated against precision, recall and f1.
 
 ## Ethical Considerations
 
