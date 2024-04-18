@@ -9,3 +9,12 @@ model:
 preprocessing:
     one_hot_encoder_file: model/oh_encoder.pkl
     label_encoder_file: model/label_encoder.pkl
+    categories:
+        - workclass
+        - education
+        - marital-status
+        - occupation
+        - relationship
+        - race
+        - sex
+        - native-country

@@ -12,7 +12,7 @@ The model is stored in model/model.pkl
 Predict the income class of the citizens according to the response they give in the census.
 
 ## Training Data
-Publicly available Census Bureau data created in 1994. The dataset contains
+Publicly available Census Bureau data created in 1994. The dataset contains 32561 records
 the following 15 columns:
 1. age: continuous.
 2. workclass: Private, Self-emp-not-inc, Self-emp-inc, Federal-gov, Local-gov, State-gov, Without-pay, Never-worked.
@@ -30,7 +30,23 @@ the following 15 columns:
 14. native-country: United-States, Cambodia, England, Puerto-Rico, Canada, Germany, Outlying-US(Guam-USVI-etc), India, Japan, Greece, South, China, Cuba, Iran, Honduras, Philippines, Italy, Poland, Jamaica, Vietnam, Mexico, Portugal, Ireland, France, Dominican-Republic, Laos, Ecuador, Taiwan, Haiti, Columbia, Hungary, Guatemala, Nicaragua, Scotland, Thailand, Yugoslavia, El-Salvador, Trinadad&Tobago, Peru, Hong, Holand-Netherlands.
 15. Income
 
-There are NA values in several column.
+There are NA values in three following columns:
+occupation        1843
+workclass         1836
+native-country     583
+age                  0
+fnlgt                0
+education            0
+education-num        0
+marital-status       0
+relationship         0
+race                 0
+sex                  0
+capital-gain         0
+capital-loss         0
+hours-per-week       0
+salary               0
+
 
 Further information can be found here:
 https://archive.ics.uci.edu/dataset/20/census+income

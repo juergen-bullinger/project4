@@ -12,7 +12,14 @@ import pandas as pd
 from ml.data import process_data
 from ml import model
 
-def get_model_performance_on_slices(ml_model, data, encoder, lb, unique_threshold=20):
+def get_model_performance_on_slices(
+        ml_model, 
+        data,
+        categorical_features,
+        encoder, 
+        lb, 
+        unique_threshold=20
+    ):
     """
     Run model inferences on sliced data and return the measured performance.
 
@@ -63,6 +70,7 @@ def get_model_performance_on_slices(ml_model, data, encoder, lb, unique_threshol
                 num_records = slice_data.shape[0]
                 X, y_true = process_data(
                     slice_data,
+                    categorical_features=categorical_features,
                     training=False, 
                     encoder=encoder, 
                     lb=lb,
