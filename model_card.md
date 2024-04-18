@@ -4,8 +4,12 @@ For additional information see the Model Card paper: https://arxiv.org/pdf/1810.
 
 ## Model Details
 This model was created by Jürgen Bullinger for the Udacity Capstone project for course 4 of the MLOps Certificate.
+It uses a RandomForestClassifier with a maximum of 100 estimators (as in the default) and to avoid overfitting, max_depth was set to 3 and min_samples_leaf was set to 5.
+These are guessed values. These values could be optimized by e.g. a grid search.
+The model is stored in model/model.pkl
 
 ## Intended Use
+Predict the income class of the citizens according to the response they give in the census.
 
 ## Training Data
 Publicly available Census Bureau data created in 1994. The dataset contains
@@ -25,6 +29,8 @@ the following 15 columns:
 13. hours-per-week: continuous.
 14. native-country: United-States, Cambodia, England, Puerto-Rico, Canada, Germany, Outlying-US(Guam-USVI-etc), India, Japan, Greece, South, China, Cuba, Iran, Honduras, Philippines, Italy, Poland, Jamaica, Vietnam, Mexico, Portugal, Ireland, France, Dominican-Republic, Laos, Ecuador, Taiwan, Haiti, Columbia, Hungary, Guatemala, Nicaragua, Scotland, Thailand, Yugoslavia, El-Salvador, Trinadad&Tobago, Peru, Hong, Holand-Netherlands.
 15. Income
+
+There are NA values in several column.
 
 Further information can be found here:
 https://archive.ics.uci.edu/dataset/20/census+income
