@@ -1,5 +1,55 @@
 import numpy as np
+import pandas as pd
 from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
+
+
+def read_raw_data(file_path) -> pd.DataFrame:
+    """
+    Read a csv file in raw format (no preprocessing, no encoding and no 
+    splitting of feature- and label data)
+
+    Parameters
+    ----------
+    file_path : str or Path
+        File name of the csv file to be read.
+
+    Returns
+    -------
+    data : pd.DataFrame.
+    """
+    data = pd.read_csv(
+        file_path, 
+        sep=',\s*', 
+        encoding="utf-8", 
+        engine="python",
+        na_values={"?",}
+    )
+    return data
+
+
+def write_raw_data(data, file_path) -> pd.DataFrame:
+    """
+    Write data to a csv file in raw format (no preprocessing and in case of
+    training or test-data data with the labels)
+
+    Parameters
+    ----------
+    data : pd.DataFrame
+    
+    file_path : str or Path
+        File name of the csv file to be read.
+
+    Returns
+    -------
+    None
+    """
+    data.to_csv(
+        file_path, 
+        sep=',', 
+        encoding="utf-8", 
+        na_rep="?",
+        index=False,
+    )
 
 
 def process_data(
