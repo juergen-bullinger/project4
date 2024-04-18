@@ -6,3 +6,6 @@ model:
         n_estimators: 100 
         max_depth: 3
         min_samples_leaf: 5
+preprocessing:
+    one_hot_encoder_file: model/oh_encoder.pkl
+    label_encoder_file: model/label_encoder.pkl

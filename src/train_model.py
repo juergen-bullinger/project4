@@ -7,13 +7,12 @@ Script to train machine learning model.
 from sklearn.model_selection import train_test_split
 
 # Add the necessary imports for the starter code.
-from pathlib import Path
 import pandas as pd
-import pickle
 
 from ml.data import process_data
 from ml import model
 import config as cfg
+import utils
 
 cfg.initialize_global_config()
 print(cfg.CONFIG)
@@ -54,5 +53,17 @@ ml_model = model.train_model(
     model_parameters=cfg.CONFIG["model"]["parameters"],
 )
 
-with Path(cfg.CONFIG["model"]["file"]).open("wb") as fp_model:
-    pickle.dump(ml_model, fp_model)
+utils.pickle_dump_object(
+    ml_model, 
+    cfg.CONFIG["model"]["file"]
+)
+
+utils.pickle_dump_object(
+    encoder, 
+    cfg.CONFIG["preprocessing"]["one_hot_encoder_file"]
+)
+
+utils.pickle_dump_object(
+    lb, 
+    cfg.CONFIG["preprocessing"]["label_encoder_file"]
+)
