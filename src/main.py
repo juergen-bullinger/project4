@@ -122,7 +122,7 @@ def _inference_list(record_list : List[DataRecord]) -> List[bool]:
 
 # example to test this with curl
 # curl -X POST http://127.0.0.1:8000/inference/
-@app.post("/inference_list")
+@app.post("/inference-list")
 async def inference_list(body : List[DataRecord]) -> List[bool]:
     """
     Predict the income category for the given records
@@ -142,7 +142,7 @@ async def inference_list(body : List[DataRecord]) -> List[bool]:
 
 # example to test this with curl
 # curl -X POST http://127.0.0.1:8000/inference/
-@app.post("/inference_one")
+@app.post("/inference-one")
 async def inference_one(body : DataRecord) -> bool:
     """
     Predict the income category for the given records

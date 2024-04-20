@@ -67,7 +67,7 @@ record_3=dict(
 
 
 response = rq.post(
-    "http://127.0.0.1:8000/inference_one?body", 
+    "http://127.0.0.1:8000/inference-one?body", 
 #    data={
 #        "record": data,
 #    }
@@ -83,7 +83,7 @@ print(response.json())
 
 #response = rq.post("http://127.0.0.1:8000/inference", data=dict(data=[data]))
 response = rq.post(
-    "http://127.0.0.1:8000/inference_list", 
+    "http://127.0.0.1:8000/inference-list", 
     json=[record_1, record_2, record_3]
 )
 
