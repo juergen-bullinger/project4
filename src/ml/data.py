@@ -19,7 +19,7 @@ def read_raw_data(file_path) -> pd.DataFrame:
     """
     data = pd.read_csv(
         file_path, 
-        sep=',\s*', 
+        sep=', *', 
         encoding="utf-8", 
         engine="python",
         na_values={"?",}
