@@ -1,0 +1,19 @@
+name: project_part_4
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - dvc
+  - fastapi
+  - jupyter
+  - jupyterlab
+  - numpy
+  - pandas
+  - pytest
+  - python=3.10
+  - scikit-learn
+  - spyder
+  - uvicorn
+  - gunicorn
+  - requests
+prefix: /scratch/work/miniconda3/envs/project_part_4

@@ -1,0 +1,8 @@
+libsqlite
+libzlib
+pyyaml
+fontconfig
+ipykernel
+psutil
+conda
+conda-libmamba-solver
