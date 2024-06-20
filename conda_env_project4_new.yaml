@@ -1,19 +1,22 @@
 name: project_part_4
 channels:
   - defaults
-  - conda-forge
 dependencies:
-  - dvc
-  - fastapi
-  - jupyter
-  - jupyterlab
-  - numpy
-  - pandas
+  - conda
+  - conda-libmamba-solver
+  - fontconfig
+  - ipykernel
+  - libsqlite
+  - libzlib
+  - psutil
+  - python=3.12
+  - pyyaml
   - pytest
-  - python=3.10
+  - pandas
   - scikit-learn
+  - flake8
+  - fastapi
+  - dvc
+  - jupyterlab
   - spyder
-  - uvicorn
-  - gunicorn
-  - requests
 prefix: /scratch/work/miniconda3/envs/project_part_4

@@ -1,8 +1,8 @@
 import setuptools
 
 setuptools.setup(
-    name="starter",
+    name="project_4", # starter
     version="0.0.0",
-    description="Starter code.",
-    author="Student",
+    description="Project 4 Starter code.",
+    author="Juergen Bullinger", # student
 )
