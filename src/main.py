@@ -5,6 +5,7 @@ This file was created from template part_3_root/cd0583-model-scoring-and-drift-u
 """
 
 import pandas as pd
+from pydantic import BaseModel, Field
 import numpy as np
 import requests
 import zipfile
@@ -13,134 +14,115 @@ import io
 from datetime import datetime
 from sklearn import datasets, ensemble
 
-from evidently.dashboard import Dashboard
-from evidently.pipeline.column_mapping import ColumnMapping
-from evidently.dashboard.tabs import DataDriftTab, NumTargetDriftTab, RegressionPerformanceTab
+#from evidently.dashboard import Dashboard
+#from evidently.pipeline.column_mapping import ColumnMapping
+#from evidently.dashboard.tabs import DataDriftTab, NumTargetDriftTab, RegressionPerformanceTab
 
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
-content = requests.get("https://archive.ics.uci.edu/ml/machine-learning-databases/00275/Bike-Sharing-Dataset.zip").content
-with zipfile.ZipFile(io.BytesIO(content)) as arc:
-    raw_data = pd.read_csv(arc.open("hour.csv"), 
-                            header=0, 
-                            sep=',', 
-                            parse_dates=['dteday'], 
-                            index_col='dteday')
+import config as cfg
+from ml.model import inference as model_inference
+from ml.data import process_data
+from utils import pickle_load_object
 
-# raw_data.head()
+MODEL = None
+ENCODER = None
+LABEL_BINARIZER = None
+CATEGORIES
 
-# Regression training
-target = 'cnt'
-prediction = 'prediction'
-numerical_features = ['temp', 'atemp', 'hum', 'windspeed', 'hr', 'weekday']
-categorical_features = ['season', 'holiday', 'workingday']
+cfg.initialize_global_config()
 
-reference = raw_data.loc['2011-01-01 00:00:00':'2011-01-28 23:00:00']
-current = raw_data.loc['2011-01-29 00:00:00':'2011-02-28 23:00:00']
 
-reference.head()
+def refresh_model():
+    """
+    Read the model into the global variable to cache it.
 
-regressor = ensemble.RandomForestRegressor(random_state = 0, 
-                                            n_estimators = 50)
+    Returns
+    -------
+    None.
+    """
+    global MODEL, ENCODER, LABEL_BINARIZER, CATEGORIES
+    MODEL = pickle_load_object(cfg.CONFIG["model"]["file"])
+    ENCODER = pickle_load_object(
+        cfg.CONFIG["preprocessing"]["one_hot_encoder_file"]
+    )
+    LABEL_BINARIZER = pickle_load_object(
+        cfg.CONFIG["preprocessing"]["label_encoder_file"]
+    )
+    CATEGORIES = cfg.CONFIG["preprocessing"]["categories"]
 
-regressor.fit(reference[numerical_features + categorical_features], 
-            reference[target])
 
-ref_prediction = regressor.predict(reference[numerical_features + categorical_features])
-current_prediction = regressor.predict(current[numerical_features + categorical_features])
+refresh_model()
 
-reference['prediction'] = ref_prediction
-current['prediction'] = current_prediction
 
-# Model Perfomance
 
-column_mapping = ColumnMapping()
+class CensusBureauRecord(BaseModel):
+    """
+    Record structure to perform inference on the classification model
+    """
+    age : int = Field(ailas="age")
+    workclass : str = Field(ailas="workclass")
+    fnlgt : int = Field(ailas="fnlgt")
+    education : str = Field(ailas="education")
+    education_num : int = Field(ailas="education-num")
+    marital_status : str = Field(ailas="marital-status")
+    occupation : str = Field(ailas="occupation")
+    relationship : str = Field(ailas="relationship")
+    race : str = Field(ailas="race")
+    sex : str = Field(ailas="sex")
+    capital_gain : int = Field(ailas="capital-gain")
+    capital_loss : int = Field(ailas="capital-loss")
+    hours_per_week : int = Field(ailas="hours-per-week")
+    native_country : str = Field(ailas="native-country")
+    salary : int = Field(ailas="salary")
 
-column_mapping.target = target
-column_mapping.prediction = prediction
-column_mapping.numerical_features = numerical_features
-column_mapping.categorical_features = categorical_features
-
-regression_perfomance_dashboard = Dashboard(tabs=[RegressionPerformanceTab()])
-regression_perfomance_dashboard.calculate(reference, None, column_mapping=column_mapping)
-
-# regression_perfomance_dashboard.show()
-
-regression_perfomance_dashboard.save("./static/index.html")
-
-#  Week 1
-
-regression_perfomance_dashboard.calculate(reference, current.loc['2011-01-29 00:00:00':'2011-02-07 23:00:00'], 
-                                            column_mapping=column_mapping)
-
-# regression_perfomance_dashboard.show()
-
-regression_perfomance_dashboard.save("./static/regression_performance_after_week1.html")
-
-target_drift_dashboard = Dashboard(tabs=[NumTargetDriftTab()])
-target_drift_dashboard.calculate(reference, current.loc['2011-01-29 00:00:00':'2011-02-07 23:00:00'], 
-                                column_mapping=column_mapping)
-
-# target_drift_dashboard.show()
-
-target_drift_dashboard.save("./static/target_drift_after_week1.html")
-
-# Week 2
-
-regression_perfomance_dashboard.calculate(reference, current.loc['2011-02-07 00:00:00':'2011-02-14 23:00:00'], 
-                                            column_mapping=column_mapping)
-
-# regression_perfomance_dashboard.show()
-
-regression_perfomance_dashboard.save("./static/regression_performance_after_week2.html")
-
-target_drift_dashboard.calculate(reference, current.loc['2011-02-07 00:00:00':'2011-02-14 23:00:00'], 
-                                column_mapping=column_mapping)
-
-# target_drift_dashboard.show()
-
-target_drift_dashboard.save("./static/target_drift_after_week2.html")
-
-# Week 3
-
-regression_perfomance_dashboard.calculate(reference, current.loc['2011-02-15 00:00:00':'2011-02-21 23:00:00'], 
-                                            column_mapping=column_mapping)
-
-# regression_perfomance_dashboard.show()
-
-regression_perfomance_dashboard.save("./static/regression_performance_after_week3.html")
-
-target_drift_dashboard.calculate(reference, current.loc['2011-02-15 00:00:00':'2011-02-21 23:00:00'], 
-                                column_mapping=column_mapping)
-
-# target_drift_dashboard.show()
-
-target_drift_dashboard.save("./static/target_drift_after_week3.html")
-
-# Data Drift
-
-column_mapping = ColumnMapping()
-
-column_mapping.numerical_features = numerical_features
-
-data_drift_dashboard = Dashboard(tabs=[DataDriftTab()])
-data_drift_dashboard.calculate(reference, current.loc['2011-01-29 00:00:00':'2011-02-07 23:00:00'], 
-                                column_mapping=column_mapping)
-
-# data_drift_dashboard.show()
-
-data_drift_dashboard.save("./static/data_drift_dashboard_after_week1.html")
-
-# Data Drift Week 2
-column_mapping = ColumnMapping()
-column_mapping.numerical_features = numerical_features
-data_drift_dashboard = Dashboard(tabs=[DataDriftTab()])
-data_drift_dashboard.calculate(reference, current.loc['2011-02-07 00:00:00':'2011-02-14 23:00:00'],
-                                column_mapping=column_mapping)
-data_drift_dashboard.save("./static/data_drift_dashboard_after_week2.html")
 
 
 app = FastAPI()
 
-app.mount("/", StaticFiles(directory="static",html = True), name="static")
+#app.mount("/", StaticFiles(directory="static",html = True), name="static")
+
+# Define a GET on the specified endpoint.
+@app.get("/")
+async def produce_welcome_and_short_description():
+    """
+    Create and return a simple json document to give a short description
+
+    Returns
+    -------
+    dict
+        JSON document containing the welcome message and a small help message.
+
+    """
+    return {
+	"greeting": "Welcome, this is the rest API for classifying the Census BureauData!\n"
+	            "please use endpoint /inference to use the model"
+    }
+
+
+@app.post("/inference")
+async def inference(census_data : CensusBureauRecord) -> str:
+    """
+    Classify the given census data using the trained model
+
+    Parameters
+    ----------
+    census_data : CensusBureauRecord
+        Data for a person as collected by the Census Bureau.
+
+    Returns
+    -------
+    Return the class as a text ("<=50K" or ">50K").
+
+    """
+    df_x = pd.DataFrame([census_data.model_dump(by_alias=True)])
+    x = process_data(
+        df_x, 
+        categorical_features=CATEGORIES,
+        encoder=ENCODER, 
+        lb=LABEL_BINARIZER,
+        training=False,
+    )
+    return model_inference(x)[0]
+

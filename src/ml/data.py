@@ -24,6 +24,9 @@ def read_raw_data(file_path) -> pd.DataFrame:
         engine="python",
         na_values={"?",}
     )
+    # replace - by _ in column names
+    columns_norm = [col.replace("-", "_") for col in data.columns]
+    data.columns = columns_norm
     return data
 
 
