@@ -6,6 +6,7 @@ This file was created from template part_3_root/cd0583-model-scoring-and-drift-u
 
 import pandas as pd
 from pydantic import BaseModel, Field
+from typing import List
 import numpy as np
 import requests
 import zipfile
@@ -83,6 +84,37 @@ app = FastAPI()
 
 #app.mount("/", StaticFiles(directory="static",html = True), name="static")
 
+# common function to perform inference
+def prepare_and_infer(census_records : List[CensusBureauRecord]) -> List[str]:
+    """
+    Preprocess the data in the census documents and feed them to the
+    classification model
+
+    Parameters
+    ----------
+    census_records : List[CensusBureauRecord]
+        CensusBureauRecord objects.
+
+    Returns
+    -------
+    List[str]
+        Classification result in a list with elements like "<=50K" or ">50K".
+    """
+    census_documents = [
+        census_record.model_dump(by_alias=True)
+        for census_record in census_records
+    ]
+    df_x = pd.DataFrame(census_documents)
+    x = process_data(
+        df_x, 
+        categorical_features=CATEGORIES,
+        encoder=ENCODER, 
+        lb=LABEL_BINARIZER,
+        training=False,
+    )
+    return model_inference(x)
+    
+
 # Define a GET on the specified endpoint.
 @app.get("/")
 async def produce_welcome_and_short_description():
@@ -96,33 +128,45 @@ async def produce_welcome_and_short_description():
 
     """
     return {
-	"greeting": "Welcome, this is the rest API for classifying the Census BureauData!\n"
-	            "please use endpoint /inference to use the model"
+        "greeting": "Welcome, this is the rest API for classifying the Census BureauData!\n"
+	            "please use endpoints /inference-one or\n"
+                "inference-list to use the model"
     }
 
 
-@app.post("/inference")
-async def inference(census_data : CensusBureauRecord) -> str:
+
+@app.post("/inference-one")
+async def inference_one(census_record : CensusBureauRecord) -> str:
     """
     Classify the given census data using the trained model
 
     Parameters
     ----------
-    census_data : CensusBureauRecord
+    census_record : CensusBureauRecord
         Data for a person as collected by the Census Bureau.
 
     Returns
     -------
     Return the class as a text ("<=50K" or ">50K").
-
     """
-    df_x = pd.DataFrame([census_data.model_dump(by_alias=True)])
-    x = process_data(
-        df_x, 
-        categorical_features=CATEGORIES,
-        encoder=ENCODER, 
-        lb=LABEL_BINARIZER,
-        training=False,
-    )
-    return model_inference(x)[0]
+    classification_result = prepare_and_infer([census_record])
+    return classification_result[0]
+
+
+@app.post("/inference-list")
+async def inference_list(census_data : List[CensusBureauRecord]) -> List[str]:
+    """
+    Classify the given census data using the trained model
+
+    Parameters
+    ----------
+    census_data : List[CensusBureauRecord]
+        Data for a list of people as collected by the Census Bureau.
+
+    Returns
+    -------
+    Return the class as a text ("<=50K" or ">50K") for each record.
+    """
+    classification_result = prepare_and_infer(census_data)
+    return classification_result
 
