@@ -25,6 +25,7 @@ def pickle_dump_object(pickle_obj, file_name_str):
     -------
     None.
     """
+    print(f"pickeling to {file_name_str}")
     with Path(file_name_str).open("wb") as fp_pickle:
         pickle.dump(pickle_obj, fp_pickle)
 

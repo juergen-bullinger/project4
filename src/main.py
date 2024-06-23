@@ -105,8 +105,14 @@ def prepare_and_infer(census_records : List[CensusBureauRecord]) -> List[str]:
         encoder=ENCODER, 
         lb=LABEL_BINARIZER,
         training=False,
-    )
+    )[0]
+    print("calling the model with:")
+    print(x)
+    print(f"of shape {x.shape}")
     model_result = model_inference(MODEL, x)
+    print("the model result is")
+    print(model_result)
+    print(f"of shape {model_result.shape}")
     return model_result
     
 

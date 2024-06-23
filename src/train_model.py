@@ -20,9 +20,6 @@ print(cfg.CONFIG)
 # Add code to load in the data.
 df_data = data.read_raw_data(cfg.CONFIG["data"]["raw_file"])
 
-print(df_data.dtypes)
-exit(1)
-
 # Optional enhancement, use K-fold cross validation instead of a train-test split.
 df_train, df_test = train_test_split(df_data, test_size=0.20)
 
