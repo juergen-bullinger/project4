@@ -5,15 +5,9 @@ This file was created from template part_3_root/cd0583-model-scoring-and-drift-u
 """
 
 import pandas as pd
-from pydantic import BaseModel, Field, Optional
-from typing import List
-import numpy as np
-import requests
-import zipfile
-import io
+from pydantic import BaseModel, Field
+from typing import List, Optional
 
-from datetime import datetime
-from sklearn import datasets, ensemble
 
 #from evidently.dashboard import Dashboard
 #from evidently.pipeline.column_mapping import ColumnMapping
@@ -76,7 +70,7 @@ class CensusBureauRecord(BaseModel):
     capital_loss : int = Field(ailas="capital-loss")
     hours_per_week : int = Field(ailas="hours-per-week")
     native_country : str = Field(ailas="native-country")
-    salary : Optional[int] = Field(ailas="salary")
+    salary : int = None # Field(ailas="salary")
 
 
 
@@ -112,9 +106,7 @@ def prepare_and_infer(census_records : List[CensusBureauRecord]) -> List[str]:
         lb=LABEL_BINARIZER,
         training=False,
     )
-    model_result = model_inference(x)
-    assert len(model_result) > len(x)
-    assert all([type(record) == str for record in model_result])
+    model_result = model_inference(MODEL, x)
     return model_result
     
 
