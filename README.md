@@ -77,6 +77,12 @@ To use your new S3 bucket from the AWS CLI you will need to create an IAM user w
 Example code
 part_3_root/cd0583-model-scoring-and-drift-using-evidently/main.py
 
+To test the API using guvicorn started from the root directory.
+Option --app-dir has to be specified so guvicorn finds the python source.
+
+uvicorn --app-dir src  main:app --reload
+
+
 ## Packages
 
 I am using render to avoide licence issues.

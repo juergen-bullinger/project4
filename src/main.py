@@ -30,7 +30,7 @@ from utils import pickle_load_object
 MODEL = None
 ENCODER = None
 LABEL_BINARIZER = None
-CATEGORIES
+CATEGORIES = None
 
 cfg.initialize_global_config()
 
