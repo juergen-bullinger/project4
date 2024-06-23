@@ -83,6 +83,16 @@ Option --app-dir has to be specified so guvicorn finds the python source.
 uvicorn --app-dir src  main:app --reload
 
 
+## Performing pytest
+Before pytest is performed, the path has to be set correctly, so pytest finds
+the necessary modules in the src subdirectory. This can be done either directly
+from the shell using
+export PYTHONPATH=$(pwd)/src
+
+or using the script created for this purpose (which also activates the
+necessary conda environment)
+. setpath_pytest.sh
+
 ## Packages
 
 I am using render to avoide licence issues.

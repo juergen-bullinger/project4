@@ -57,7 +57,12 @@ https://archive.ics.uci.edu/dataset/20/census+income
 ## Metrics
 The model is evaluated against precision, recall and f1.
 
-## Ethical Considerations
+## Ethical Considerationst
+In all appliactions of this model the users have to consider that the result
+could discriminate people. Especially if it is used to make decisions which
+could lead to a disadvanage of the people who are classified (e.g. in credit
+decisions).
 
 ## Caveats and Recommendations
-
+Double check the output if possible e.g. by derving the salary class or the
+decision derived from it by another method to avoid discrimination.
