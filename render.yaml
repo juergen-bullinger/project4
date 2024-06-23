@@ -5,6 +5,5 @@ services:
     runtime: python
     plan: free
     autoDeploy: false
-    buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
-    startCommand: uvicorn --app-dir src   main:app --reload
+    buildCommand: conda install --file conda_env_project4.yaml
+    startCommand: ./start_uvicorn.sh
