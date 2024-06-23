@@ -6,8 +6,13 @@ Created on Fri Apr 19 15:33:40 2024
 @author: juergen
 """
 
-import requests as rq
+from fastapi.testclient import TestClient
 
+# Import our app from main.py.
+from main import app
+
+# Instantiate the testing client with our app.
+client = TestClient(app)
 
 record_1 = dict(
     age=30,
@@ -61,27 +66,32 @@ record_3 = dict(
 )
 
 
-def check_inference_one():
+# Write tests using the same syntax as with the requests module.
+def test_api_locally_get_root():
+    r = client.get("/")
+    assert r.status_code == 200
+    assert "greeting" in r.json() 
+
+def test_api_locally_inference_one():
     print("-" * 40)
     print("inference-one")
-    response = rq.post(
+    r = client.post(
         "http://127.0.0.1:8000/inference-one",
         json=record_3,
     )
+    print(r)
+    print(r.text)
+    print(r.json())
+    assert r.status_code == 200
 
-    print(response)
-    print(response.text)
-    print(response.json())
 
-
-def check_inference_list():
+def test_api_locally_inference_list():
     print("-" * 40)
     print("inference-list")
-    response = rq.post(
+    response = client.post(
         "http://127.0.0.1:8000/inference-list",
         json=[record_1, record_2, record_3]
     )
-
     print(response)
     print(response.text)
     print(response.json())
