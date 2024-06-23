@@ -99,6 +99,11 @@ def prepare_and_infer(census_records : List[CensusBureauRecord]) -> List[str]:
         for census_record in census_records
     ]
     df_x = pd.DataFrame(census_documents)
+    if "salary" in df_x:
+        # remove the target column
+        df_x.drop(columns=["salary"], inplace=True)
+    print("received the following columns")
+    print(df_x.columns)
     x = process_data(
         df_x, 
         categorical_features=CATEGORIES,
@@ -113,8 +118,11 @@ def prepare_and_infer(census_records : List[CensusBureauRecord]) -> List[str]:
     print("the model result is")
     print(model_result)
     print(f"of shape {model_result.shape}")
-    return model_result
-    
+    inverse_result = LABEL_BINARIZER.inverse_transform(model_result)
+    print("the inversed result is:")
+    print(inverse_result)
+    return inverse_result
+
 
 # Define a GET on the specified endpoint.
 @app.get("/")
