@@ -6,13 +6,10 @@ Created on Fri Apr 19 15:33:40 2024
 @author: juergen
 """
 
-import json
 import requests as rq
 
 
-
-
-record_1=dict(
+record_1 = dict(
     age=30,
     workclass="State-gov",
     fnlgt=77516,
@@ -29,7 +26,7 @@ record_1=dict(
     native_country="United-States"
 )
 
-record_2=dict(
+record_2 = dict(
     age=39,
     workclass="State-gov",
     fnlgt=77516,
@@ -46,7 +43,7 @@ record_2=dict(
     native_country="United-States"
 )
 
-record_3=dict(
+record_3 = dict(
     age=52,
     workclass="Self-emp-not-inc",
     fnlgt=209642,
@@ -64,17 +61,11 @@ record_3=dict(
 )
 
 
-
 print("-" * 40)
 print("inference-one")
 response = rq.post(
-    "http://127.0.0.1:8000/inference-one", 
-#    data={
-#        "record": data,
-#    }
-     #json=json.dumps(data),
-     #data=data,
-     json=record_3,
+    "http://127.0.0.1:8000/inference-one",
+    json=record_3,
 )
 
 print(response)
@@ -84,9 +75,8 @@ print(response.json())
 
 print("-" * 40)
 print("inference-list")
-#response = rq.post("http://127.0.0.1:8000/inference", data=dict(data=[data]))
 response = rq.post(
-    "http://127.0.0.1:8000/inference-list", 
+    "http://127.0.0.1:8000/inference-list",
     json=[record_1, record_2, record_3]
 )
 
