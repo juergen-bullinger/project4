@@ -5,7 +5,7 @@ This file was created from template part_3_root/cd0583-model-scoring-and-drift-u
 """
 
 import pandas as pd
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, Optional
 from typing import List
 import numpy as np
 import requests
@@ -76,7 +76,7 @@ class CensusBureauRecord(BaseModel):
     capital_loss : int = Field(ailas="capital-loss")
     hours_per_week : int = Field(ailas="hours-per-week")
     native_country : str = Field(ailas="native-country")
-    salary : int = Field(ailas="salary")
+    salary : Optional[int] = Field(ailas="salary")
 
 
 
@@ -112,7 +112,10 @@ def prepare_and_infer(census_records : List[CensusBureauRecord]) -> List[str]:
         lb=LABEL_BINARIZER,
         training=False,
     )
-    return model_inference(x)
+    model_result = model_inference(x)
+    assert len(model_result) > len(x)
+    assert all([type(record) == str for record in model_result])
+    return model_result
     
 
 # Define a GET on the specified endpoint.

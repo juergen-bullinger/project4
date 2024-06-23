@@ -85,3 +85,7 @@ def check_inference_list():
     print(response)
     print(response.text)
     print(response.json())
+
+check_inference_one()
+check_inference_list()
+
