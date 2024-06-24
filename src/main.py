@@ -73,7 +73,7 @@ class CensusBureauRecord(BaseModel):
     salary : int = None # Field(ailas="salary")
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "examples": [
                 {
                     "age": 23,
