@@ -72,6 +72,28 @@ class CensusBureauRecord(BaseModel):
     native_country : str = Field(ailas="native-country")
     salary : int = None # Field(ailas="salary")
 
+    class Config:
+        schema_extra = {
+            "examples": [
+                {
+                    "age": 23,
+                    "workclass": "Private",
+                    "fnlwgt": 57827,
+                    "education": "Bachelors",
+                    "education_num": 13,
+                    "marital_status": "Never-married",
+                    "occupation": "Farming-fishing",
+                    "relationship": "Not-in-family",
+                    "race": "White",
+                    "sex": "Male",
+                    "capital_gain": 0,
+                    "capital_loss": 0,
+                    "hours_per_week": 40,
+                    "native_country": "United-States",
+                }
+            ]
+        }
+
 
 
 app = FastAPI()
