@@ -1,4 +1,8 @@
+census+income.zip
 
-/census.csv
-/test.csv
-/train.csv
+census+income:
+adult.data
+adult.names
+adult.test
+Index
+old.adult.names
