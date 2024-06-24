@@ -34,7 +34,7 @@ jobs:
     - name: Perform pytest
       run: |
         export PYTHONPATH=$(pwd)/src
-        pytest -v -p no:warnings  -o log_cli=true  --log-cli-level=INFO tests
+        pytest -v -p no:warnings -o log_cli=true --log-cli-level=INFO tests
     - name: Deploy
       # The Deploy step executes a curl request to our deploy hook URL only if the Test  with pytest step succeeded.
       # using hook to trigger the deployment only if test succeds, see https://docs.render.com/deploy-hooks for setting the secret

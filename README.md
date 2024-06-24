@@ -1,19 +1,19 @@
 Working in a command line environment is recommended for ease of use with git and dvc. If on Windows, WSL1 or 2 is recommended.
 
-# Environment Set up
+# Environment Set up and used Packages
 * This is using Python 3.12 with conda
 * The conda environment can be built using conda_env_project4.yaml
 
-## Repositories
-* The git repository can be found here: https://github.com/juergen-bullinger/project4
-
+## Repositories and connected Accounts
+* The git repository can be found here: 
+  github-user: juergen-bullinger
+  repo: https://github.com/juergen-bullinger/project4
+* I am using render to avoid licence issues.
+  user: juergen-bullinger
+  url: https://render.com/
 
 ## GitHub Actions
-
-* Setup GitHub Actions on your repository. You can use one of the pre-made GitHub Actions if at a minimum it runs pytest and flake8 on push and requires both to pass without error.
-   * Make sure you set up the GitHub Action to have the same version of Python as you used in development.
-* Add your <a href="https://github.com/marketplace/actions/configure-aws-credentials-action-for-github-actions" target="_blank">AWS credentials to the Action</a>.
-* Set up <a href="https://github.com/iterative/setup-dvc" target="_blank">DVC in the action</a> and specify a command to `dvc pull`.
+* flake8 and pytest is executed when the pipeline is run
 
 ## Data
 
@@ -78,10 +78,4 @@ python src/sanitycheck.py tests/
 2. on the prompt asking for the path enter:
 tests/manual_api_test.py
 
-
-## Packages
-
-I am using render to avoide licence issues.
-https://render.com/
-github-user: juergen-bullinger
 
