@@ -1,9 +1,11 @@
-python==3.8
+python==3.12
 numpy
 pandas
 scikit-learn
 pytest
 requests
-fastapi==0.63.0
 uvicorn
-gunicorn
+gunicorn==21.2.0
+fastapi==0.103.0
+flake8==7.0.0
+
