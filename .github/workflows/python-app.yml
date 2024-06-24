@@ -40,6 +40,5 @@ jobs:
       # using hook to trigger the deployment only if test succeds, see https://docs.render.com/deploy-hooks for setting the secret
       env:
         deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
-      
       run: |
         curl "$deploy_url"
