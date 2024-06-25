@@ -1,7 +1,9 @@
 """
 Script to train machine learning model.
 
+Created on Thu Apr 18 10:39:17 2024
 
+@author: juergen
 """
 
 from sklearn.model_selection import train_test_split

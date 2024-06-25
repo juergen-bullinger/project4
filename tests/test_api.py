@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
+Test the rest API created by fastapi.
+
 Created on Fri Apr 19 15:33:40 2024
 @author: juergen
 """
@@ -9,6 +11,9 @@ from fastapi.testclient import TestClient
 
 # Import our app from main.py.
 from main import app
+from utils import get_logger
+
+log = get_logger(__name__)
 
 # Instantiate the testing client with our app.
 client = TestClient(app)
@@ -73,26 +78,26 @@ def test_api_locally_get_root():
 
 
 def test_api_locally_inference_one():
-    print("-" * 40)
-    print("inference-one")
+    log.info("-" * 40)
+    log.info("inference-one")
     r = client.post(
         "/inference-one",
         json=record_3,
     )
-    print(r)
-    print(r.text)
-    print(r.json())
+    log.info(r)
+    log.info(r.text)
+    log.info(r.json())
     assert r.status_code == 200
 
 
 def test_api_locally_inference_list():
-    print("-" * 40)
-    print("inference-list")
+    log.info("-" * 40)
+    log.info("inference-list")
     r = client.post(
         "/inference-list",
         json=[record_1, record_2, record_3]
     )
-    print(r)
-    print(r.text)
-    print(r.json())
+    log.info(r)
+    log.info(r.text)
+    log.info(r.json())
     assert r.status_code == 200

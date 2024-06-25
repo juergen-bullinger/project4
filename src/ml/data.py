@@ -1,7 +1,18 @@
+"""
+Functions to access the data to train and test the classifier.
+
+Created on Thu Apr 18 10:39:17 2024
+
+@author: juergen
+"""
+
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
 
+from utils import get_logger
+
+log = get_logger(__name__)
 
 def read_raw_data(file_path) -> pd.DataFrame:
     """
@@ -17,6 +28,7 @@ def read_raw_data(file_path) -> pd.DataFrame:
     -------
     data : pd.DataFrame.
     """
+    log.info("reading from file %s", file_path)
     data = pd.read_csv(
         file_path, 
         sep=', *', 
@@ -46,6 +58,7 @@ def write_raw_data(data, file_path) -> pd.DataFrame:
     -------
     None
     """
+    log.info("writing to file %s", file_path)
     data.to_csv(
         file_path, 
         sep=',', 
@@ -96,8 +109,9 @@ def process_data(
         Trained LabelBinarizer if training is True, otherwise returns the binarizer
         passed in.
     """
-
+    log.info("processing data for training, inference or validation")
     if label is not None:
+        log.info("using label column %s", label)
         y = X[label]
         X = X.drop([label], axis=1)
     else:
@@ -107,6 +121,7 @@ def process_data(
     X_continuous = X.drop(*[categorical_features], axis=1)
 
     if training is True:
+        log.info("training the encoders")
         encoder = OneHotEncoder(sparse_output=False, handle_unknown="ignore")
         lb = LabelBinarizer()
         X_categorical = encoder.fit_transform(X_categorical)

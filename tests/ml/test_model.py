@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
+Testcases for the model module.´
+
 Created on Thu Apr 18 19:06:11 2024
 
 @author: juergen
@@ -9,10 +11,10 @@ import io
 import pandas as pd
 from sklearn.metrics import accuracy_score
 
+import pytest
+
 from ml import data
 from ml import model
-
-import pytest
 
 DATASTR = (
     "age,workclass,fnlgt,education,education-num,marital-status,"

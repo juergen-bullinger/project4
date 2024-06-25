@@ -9,6 +9,7 @@ Created on Thu Apr 18 14:53:32 2024
 
 from pathlib import Path
 import pickle
+import logging
 
 def pickle_dump_object(pickle_obj, file_name_str):
     """
@@ -47,3 +48,19 @@ def pickle_load_object(file_name_str):
         pickle_obj = pickle.load(fp_pickle)
     return pickle_obj
 
+
+def get_logger(name : str=None):
+    """
+    Get an initialized logger
+
+    Parameters
+    ----------
+    context : str
+        Name / Context of the logger´.
+
+    Returns
+    -------
+    Logger.
+    """
+    logging.basicConfig(level=logging.DEBUG, format="%(asctime)-15s %(filename)15s: %(message)s")
+    return logging.getlogger(name)

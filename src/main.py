@@ -1,25 +1,23 @@
 """
-Crete a rest api to interact with the trained model
+Create a rest api to interact with the trained model.
+This is the script called by gunicorn / uvicorn.
 
 This file was created from template part_3_root/cd0583-model-scoring-and-drift-using-evidently/main.py
 """
 
 import pandas as pd
 from pydantic import BaseModel, Field
-from typing import List, Optional
-
-
-#from evidently.dashboard import Dashboard
-#from evidently.pipeline.column_mapping import ColumnMapping
-#from evidently.dashboard.tabs import DataDriftTab, NumTargetDriftTab, RegressionPerformanceTab
+from typing import List
 
 from fastapi import FastAPI
-from fastapi.staticfiles import StaticFiles
+#from fastapi.staticfiles import StaticFiles
 
 import config as cfg
 from ml.model import inference as model_inference
 from ml.data import process_data
-from utils import pickle_load_object
+from utils import pickle_load_object, get_logger
+
+log = get_logger(__name__)
 
 MODEL = None
 ENCODER = None
@@ -124,8 +122,8 @@ def prepare_and_infer(census_records : List[CensusBureauRecord]) -> List[str]:
     if "salary" in df_x:
         # remove the target column
         df_x.drop(columns=["salary"], inplace=True)
-    print("received the following columns")
-    print(df_x.columns)
+    log.info("received the following columns")
+    log.info(df_x.columns)
     x = process_data(
         df_x, 
         categorical_features=CATEGORIES,
@@ -133,16 +131,16 @@ def prepare_and_infer(census_records : List[CensusBureauRecord]) -> List[str]:
         lb=LABEL_BINARIZER,
         training=False,
     )[0]
-    print("calling the model with:")
-    print(x)
-    print(f"of shape {x.shape}")
+    log.info("calling the model with:")
+    log.info(x)
+    log.info(f"of shape {x.shape}")
     model_result = model_inference(MODEL, x)
-    print("the model result is")
-    print(model_result)
-    print(f"of shape {model_result.shape}")
+    log.info("the model result is")
+    log.info(model_result)
+    log.info(f"of shape {model_result.shape}")
     inverse_result = LABEL_BINARIZER.inverse_transform(model_result)
-    print("the inversed result is:")
-    print(inverse_result)
+    log.info("the inversed result is:")
+    log.info(inverse_result)
     return inverse_result
 
 
