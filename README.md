@@ -40,6 +40,8 @@ The API has three Endpoints
 
 ## API Deployment
 * The API is deployed via render (see accounts) from the github pipeline.
+* The API documentation is reachable on render via the following url
+  https://project4-fq0h.onrender.com/docs
 
 ## Testing
 ### Performing pytest
