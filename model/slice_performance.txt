@@ -1,0 +1,104 @@
+        column                      value  precision   recall    fbeta
+     workclass                Federal-gov        1.0 0.093750 0.171429
+     workclass                  Local-gov        1.0 0.084615 0.156028
+     workclass               Never-worked        1.0 1.000000 1.000000
+     workclass                    Private        1.0 0.101463 0.184234
+     workclass               Self-emp-inc        1.0 0.264706 0.418605
+     workclass           Self-emp-not-inc        1.0 0.136691 0.240506
+     workclass                  State-gov        1.0 0.128571 0.227848
+     workclass                Without-pay        1.0 1.000000 1.000000
+     workclass                        NaN        1.0 0.083333 0.153846
+     education                       10th        1.0 0.000000 0.000000
+     education                       11th        1.0 0.000000 0.000000
+     education                       12th        1.0 0.000000 0.000000
+     education                    1st-4th        1.0 1.000000 1.000000
+     education                    5th-6th        1.0 0.000000 0.000000
+     education                    7th-8th        1.0 0.000000 0.000000
+     education                        9th        1.0 0.000000 0.000000
+     education                 Assoc-acdm        1.0 0.018868 0.037037
+     education                  Assoc-voc        1.0 0.038961 0.075000
+     education                  Bachelors        1.0 0.176334 0.299803
+     education                  Doctorate        1.0 0.319149 0.483871
+     education                    HS-grad        1.0 0.015873 0.031250
+     education                    Masters        1.0 0.224719 0.366972
+     education                  Preschool        1.0 1.000000 1.000000
+     education                Prof-school        1.0 0.387097 0.558140
+     education               Some-college        1.0 0.038462 0.074074
+marital_status                   Divorced        1.0 0.000000 0.000000
+marital_status          Married-AF-spouse        1.0 0.000000 0.000000
+marital_status         Married-civ-spouse        1.0 0.138032 0.242581
+marital_status      Married-spouse-absent        1.0 0.000000 0.000000
+marital_status              Never-married        1.0 0.000000 0.000000
+marital_status                  Separated        1.0 0.000000 0.000000
+marital_status                    Widowed        1.0 0.000000 0.000000
+    occupation               Adm-clerical        1.0 0.009901 0.019608
+    occupation               Armed-Forces        1.0 1.000000 1.000000
+    occupation               Craft-repair        1.0 0.004717 0.009390
+    occupation            Exec-managerial        1.0 0.192893 0.323404
+    occupation            Farming-fishing        1.0 0.043478 0.083333
+    occupation          Handlers-cleaners        1.0 0.058824 0.111111
+    occupation          Machine-op-inspct        1.0 0.000000 0.000000
+    occupation              Other-service        1.0 0.000000 0.000000
+    occupation            Priv-house-serv        1.0 1.000000 1.000000
+    occupation             Prof-specialty        1.0 0.232955 0.377880
+    occupation            Protective-serv        1.0 0.023810 0.046512
+    occupation                      Sales        1.0 0.090047 0.165217
+    occupation               Tech-support        1.0 0.034483 0.066667
+    occupation           Transport-moving        1.0 0.012658 0.025000
+    occupation                        NaN        1.0 0.083333 0.153846
+  relationship                    Husband        1.0 0.150912 0.262248
+  relationship              Not-in-family        1.0 0.000000 0.000000
+  relationship             Other-relative        1.0 0.000000 0.000000
+  relationship                  Own-child        1.0 0.000000 0.000000
+  relationship                  Unmarried        1.0 0.000000 0.000000
+  relationship                       Wife        1.0 0.041667 0.080000
+          race         Amer-Indian-Eskimo        1.0 0.000000 0.000000
+          race         Asian-Pac-Islander        1.0 0.175439 0.298507
+          race                      Black        1.0 0.043956 0.084211
+          race                      Other        1.0 0.000000 0.000000
+          race                      White        1.0 0.120833 0.215613
+           sex                     Female        1.0 0.026087 0.050847
+           sex                       Male        1.0 0.132847 0.234536
+native_country                   Cambodia        1.0 0.000000 0.000000
+native_country                     Canada        1.0 0.000000 0.000000
+native_country                      China        1.0 0.000000 0.000000
+native_country                   Columbia        1.0 1.000000 1.000000
+native_country                       Cuba        1.0 0.000000 0.000000
+native_country         Dominican-Republic        1.0 1.000000 1.000000
+native_country                    Ecuador        1.0 0.000000 0.000000
+native_country                El-Salvador        1.0 0.500000 0.666667
+native_country                    England        1.0 0.000000 0.000000
+native_country                     France        1.0 0.000000 0.000000
+native_country                    Germany        1.0 0.000000 0.000000
+native_country                     Greece        1.0 0.500000 0.666667
+native_country                  Guatemala        1.0 1.000000 1.000000
+native_country                      Haiti        1.0 1.000000 1.000000
+native_country                   Honduras        1.0 0.000000 0.000000
+native_country                       Hong        1.0 0.000000 0.000000
+native_country                    Hungary        1.0 0.000000 0.000000
+native_country                      India        1.0 0.375000 0.545455
+native_country                       Iran        1.0 0.000000 0.000000
+native_country                    Ireland        1.0 0.000000 0.000000
+native_country                      Italy        1.0 0.000000 0.000000
+native_country                    Jamaica        1.0 0.000000 0.000000
+native_country                      Japan        1.0 0.200000 0.333333
+native_country                       Laos        1.0 1.000000 1.000000
+native_country                     Mexico        1.0 0.000000 0.000000
+native_country                  Nicaragua        1.0 0.000000 0.000000
+native_country Outlying-US(Guam-USVI-etc)        1.0 1.000000 1.000000
+native_country                       Peru        1.0 0.000000 0.000000
+native_country                Philippines        1.0 0.050000 0.095238
+native_country                     Poland        1.0 1.000000 1.000000
+native_country                   Portugal        1.0 0.000000 0.000000
+native_country                Puerto-Rico        1.0 0.000000 0.000000
+native_country                   Scotland        1.0 1.000000 1.000000
+native_country                      South        1.0 0.666667 0.800000
+native_country                     Taiwan        1.0 0.500000 0.666667
+native_country                   Thailand        1.0 0.000000 0.000000
+native_country            Trinadad&Tobago        1.0 0.000000 0.000000
+native_country              United-States        1.0 0.116848 0.209246
+native_country                    Vietnam        1.0 0.000000 0.000000
+native_country                 Yugoslavia        1.0 0.000000 0.000000
+native_country                        NaN        1.0 0.208333 0.344828
+        salary                      <=50K        1.0 1.000000 1.000000
+        salary                       >50K        1.0 0.117500 0.210291

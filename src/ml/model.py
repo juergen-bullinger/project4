@@ -8,6 +8,10 @@ Created on Thu Apr 18 10:39:17 2024
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 from sklearn.ensemble import RandomForestClassifier
 
+from utils import get_logger
+
+logger = get_logger(__name__)
+
 # Optional: implement hyperparameter tuning.
 def train_model(X_train, y_train, model_parameters={}):
     """
@@ -29,15 +33,15 @@ def train_model(X_train, y_train, model_parameters={}):
     return ml_model
 
 
-def compute_model_metrics(y, preds):
+def compute_model_metrics(y_true, y_pred):
     """
     Validates the trained machine learning model using precision, recall, and F1.
 
     Inputs
     ------
-    y : np.array
+    y_true : np.array
         Known labels, binarized.
-    preds : np.array
+    y_pred : np.array
         Predicted labels, binarized.
     Returns
     -------
@@ -45,9 +49,21 @@ def compute_model_metrics(y, preds):
     recall : float
     fbeta : float
     """
-    precision = precision_score(y, preds, zero_division=1)
-    recall = recall_score(y, preds, zero_division=1)
-    fbeta = fbeta_score(y, preds, beta=1, zero_division=1)
+    try:
+        precision = precision_score(y_true, y_pred, zero_division=1)
+        recall = recall_score(y_true, y_pred, zero_division=1)
+        fbeta = fbeta_score(y_true, y_pred, beta=1, zero_division=1)
+    except ValueError as ex:
+        logger.info("an exception was encountered, %s", ex)
+        if hasattr(y_true, "shape"):
+            logger.info("shape of y_true: %s", y_true.shape)
+        else:
+            logger.info("len of y_true: %s", len(y_true))
+        if hasattr(y_pred, "shape"):
+            logger.info("shape of y_pred: %s", y_pred.shape)
+        else:
+            logger.info("len of y_pred: %s", len(y_pred))
+        raise ex
     return precision, recall, fbeta
 
 
@@ -67,4 +83,5 @@ def inference(ml_model, X):
         Predictions from the model.
     """
     return ml_model.predict(X)
+
 

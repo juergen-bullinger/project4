@@ -27,8 +27,8 @@ df_train, df_test = train_test_split(df_data, test_size=0.20)
 
 # write the split data frames
 data_path = Path(cfg.CONFIG["data"]["data_path"])
-data.write_raw_data(df_train, data_path / "train.csv")
-data.write_raw_data(df_test, data_path / "test.csv")
+data.write_raw_data(df_train, cfg.CONFIG["data"]["train_file"])
+data.write_raw_data(df_test, cfg.CONFIG["data"]["test_file"])
 
 
 # Proces the test data with the process_data function.

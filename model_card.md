@@ -53,6 +53,8 @@ https://archive.ics.uci.edu/dataset/20/census+income
 
 
 ## Evaluation Data
+See model/slice_performance.txt for the evaluation of the model on slices of
+the data.
 
 ## Metrics
 The model is evaluated against precision, recall and f1.

@@ -4,7 +4,6 @@ This is the script called by gunicorn / uvicorn.
 
 This file was created from template part_3_root/cd0583-model-scoring-and-drift-using-evidently/main.py
 """
-
 import pandas as pd
 from pydantic import BaseModel, Field
 from typing import List
@@ -13,41 +12,13 @@ from fastapi import FastAPI
 #from fastapi.staticfiles import StaticFiles
 
 import config as cfg
-from ml.model import inference as model_inference
-from ml.data import process_data
-from utils import pickle_load_object, get_logger
+from ml.model_high_level_api import prepare_and_infer
+from utils import get_logger
 
-log = get_logger(__name__)
+logger = get_logger(__name__)
 
-MODEL = None
-ENCODER = None
-LABEL_BINARIZER = None
-CATEGORIES = None
 
 cfg.initialize_global_config()
-
-
-def refresh_model():
-    """
-    Read the model into the global variable to cache it.
-
-    Returns
-    -------
-    None.
-    """
-    global MODEL, ENCODER, LABEL_BINARIZER, CATEGORIES
-    MODEL = pickle_load_object(cfg.CONFIG["model"]["file"])
-    ENCODER = pickle_load_object(
-        cfg.CONFIG["preprocessing"]["one_hot_encoder_file"]
-    )
-    LABEL_BINARIZER = pickle_load_object(
-        cfg.CONFIG["preprocessing"]["label_encoder_file"]
-    )
-    CATEGORIES = cfg.CONFIG["preprocessing"]["categories"]
-
-
-refresh_model()
-
 
 
 class CensusBureauRecord(BaseModel):
@@ -99,7 +70,7 @@ app = FastAPI()
 #app.mount("/", StaticFiles(directory="static",html = True), name="static")
 
 # common function to perform inference
-def prepare_and_infer(census_records : List[CensusBureauRecord]) -> List[str]:
+def prepare_and_infer_from_records(census_records : List[CensusBureauRecord]) -> List[str]:
     """
     Preprocess the data in the census documents and feed them to the
     classification model
@@ -120,28 +91,8 @@ def prepare_and_infer(census_records : List[CensusBureauRecord]) -> List[str]:
     ]
     df_x = pd.DataFrame(census_documents)
     if "salary" in df_x:
-        # remove the target column
-        df_x.drop(columns=["salary"], inplace=True)
-    log.info("received the following columns")
-    log.info(df_x.columns)
-    x = process_data(
-        df_x, 
-        categorical_features=CATEGORIES,
-        encoder=ENCODER, 
-        lb=LABEL_BINARIZER,
-        training=False,
-    )[0]
-    log.info("calling the model with:")
-    log.info(x)
-    log.info(f"of shape {x.shape}")
-    model_result = model_inference(MODEL, x)
-    log.info("the model result is")
-    log.info(model_result)
-    log.info(f"of shape {model_result.shape}")
-    inverse_result = LABEL_BINARIZER.inverse_transform(model_result)
-    log.info("the inversed result is:")
-    log.info(inverse_result)
-    return inverse_result
+        df_x = df_x.drop("salary", axis="columns")
+    return prepare_and_infer(df_x)[0]
 
 
 # Define a GET on the specified endpoint.
@@ -178,7 +129,7 @@ async def inference_one(census_record : CensusBureauRecord) -> str:
     -------
     Return the class as a text ("<=50K" or ">50K").
     """
-    classification_result = prepare_and_infer([census_record])
+    classification_result = prepare_and_infer_from_records([census_record])
     return classification_result[0]
 
 
@@ -196,6 +147,6 @@ async def inference_list(census_data : List[CensusBureauRecord]) -> List[str]:
     -------
     Return the class as a text ("<=50K" or ">50K") for each record.
     """
-    classification_result = prepare_and_infer(census_data)
+    classification_result = prepare_and_infer_from_records(census_data)
     return classification_result
 

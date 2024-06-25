@@ -63,4 +63,4 @@ def get_logger(name : str=None):
     Logger.
     """
     logging.basicConfig(level=logging.DEBUG, format="%(asctime)-15s %(filename)15s: %(message)s")
-    return logging.getlogger(name)
+    return logging.getLogger(name)

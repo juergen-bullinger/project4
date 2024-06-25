@@ -1,6 +1,8 @@
 data:
     raw_file: data/census.csv
     data_path: data
+    test_file: data/test.csv
+    train_file: data/train.csv
 model:
     file: model/model.pkl
     parameters:
@@ -8,6 +10,7 @@ model:
         max_depth: 3
         min_samples_leaf: 2 
         random_state: 42
+    slice_performance: model/slice_performance.txt
 preprocessing:
     one_hot_encoder_file: model/oh_encoder.pkl
     label_encoder_file: model/label_encoder.pkl

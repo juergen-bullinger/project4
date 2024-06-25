@@ -13,7 +13,7 @@ from fastapi.testclient import TestClient
 from main import app
 from utils import get_logger
 
-log = get_logger(__name__)
+logger = get_logger(__name__)
 
 # Instantiate the testing client with our app.
 client = TestClient(app)
@@ -78,26 +78,26 @@ def test_api_locally_get_root():
 
 
 def test_api_locally_inference_one():
-    log.info("-" * 40)
-    log.info("inference-one")
+    logger.info("-" * 40)
+    logger.info("inference-one")
     r = client.post(
         "/inference-one",
         json=record_3,
     )
-    log.info(r)
-    log.info(r.text)
-    log.info(r.json())
+    logger.info(r)
+    logger.info(r.text)
+    logger.info(r.json())
     assert r.status_code == 200
 
 
 def test_api_locally_inference_list():
-    log.info("-" * 40)
-    log.info("inference-list")
+    logger.info("-" * 40)
+    logger.info("inference-list")
     r = client.post(
         "/inference-list",
         json=[record_1, record_2, record_3]
     )
-    log.info(r)
-    log.info(r.text)
-    log.info(r.json())
+    logger.info(r)
+    logger.info(r.text)
+    logger.info(r.json())
     assert r.status_code == 200
