@@ -5,7 +5,7 @@ scikit-learn==1.4.2
 pytest
 requests
 uvicorn
-gunicorn==21.2.0
+gunicorn
 fastapi==0.103.0
 flake8==7.0.0
 pyyaml

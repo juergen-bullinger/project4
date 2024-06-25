@@ -56,6 +56,9 @@ necessary conda environment)
 1. call:
 python src/sanitycheck.py tests/
 2. on the prompt asking for the path enter:
-tests/manual_api_test.py
+tests/manual_api_test_local.py
+or
+tests/manual_api_test_render.py
+
 
 
