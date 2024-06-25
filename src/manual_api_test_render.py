@@ -65,7 +65,7 @@ def check_inference_one():
     print("-" * 40)
     print("inference-one")
     response = rq.post(
-        "http://project4-fq0h.onrender.com:8000/inference-one",
+        "https://project4-fq0h.onrender.com/inference-one",
         json=record_3,
     )
 
@@ -78,7 +78,7 @@ def check_inference_list():
     print("-" * 40)
     print("inference-list")
     response = rq.post(
-        "http://project4-fq0h.onrender.com:8000/inference-list",
+        "https://project4-fq0h.onrender.com/inference-list",
         json=[record_1, record_2, record_3]
     )
 
