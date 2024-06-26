@@ -69,6 +69,24 @@ record_3 = dict(
     native_country="United-States",
 )
 
+record_4 = dict(
+    age=52,
+    workclass="State-gov",
+    fnlgt=209280,
+    education="Masters",
+    education_num=14,
+    marital_status="Married-civ-spouse",
+    occupation="Prof-specialty",
+    relationship="Husband",
+    race="White",
+    sex="Male",
+    capital_gain=6514,
+    capital_loss=0,
+    hours_per_week=35,
+    native_country="United-States",
+)
+
+
 
 # Write tests using the same syntax as with the requests module.
 def test_api_locally_get_root():
@@ -77,7 +95,7 @@ def test_api_locally_get_root():
     assert "greeting" in r.json() 
 
 
-def test_api_locally_inference_one():
+def test_api_locally_inference_one_less_than_50():
     logger.info("-" * 40)
     logger.info("inference-one")
     r = client.post(
@@ -88,6 +106,21 @@ def test_api_locally_inference_one():
     logger.info(r.text)
     logger.info(r.json())
     assert r.status_code == 200
+    assert r.json() == "<=50K"
+
+
+def test_api_locally_inference_one_more_than_50():
+    logger.info("-" * 40)
+    logger.info("inference-one")
+    r = client.post(
+        "/inference-one",
+        json=record_4,
+    )
+    logger.info(r)
+    logger.info(r.text)
+    logger.info(r.json())
+    assert r.status_code == 200
+    assert r.json() == ">50K"
 
 
 def test_api_locally_inference_list():

@@ -10,7 +10,7 @@ model:
         max_depth: 3
         min_samples_leaf: 2 
         random_state: 42
-    slice_performance: model/slice_performance.txt
+    slice_performance: model/slice_output.txt
 preprocessing:
     one_hot_encoder_file: model/oh_encoder.pkl
     label_encoder_file: model/label_encoder.pkl
