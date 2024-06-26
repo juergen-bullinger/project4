@@ -130,6 +130,7 @@ def test_train_model(prepared_data, trained_model):
     X, y_true, encoder, lb = prepared_data
     y_pred = trained_model.predict(X)
     assert len(y_pred) == len(y_true)
+    assert all([pred.is_integer() for pred in y_pred])
 
 
 def test_compute_model_metrics(prepared_data):
@@ -177,6 +178,7 @@ def test_inference(prepared_data, trained_model):
     """
     X, y_true, encoder, lb = prepared_data
     y_pred = model.inference(trained_model, X)
+    assert all([pred.is_integer() for pred in y_pred])
     assert len(y_pred) == len(y_true)
     acc = accuracy_score(y_true, y_pred)
     assert acc >= 0.75
