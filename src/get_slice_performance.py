@@ -9,6 +9,7 @@ Created on Tue Jun 25 11:48:22 2024
 """
 
 import pandas as pd
+import numpy as np
 
 # from fastapi.staticfiles import StaticFiles
 
@@ -43,11 +44,23 @@ def evaluate_slice_performance(data: pd.DataFrame) -> pd.DataFrame:
     -------
     DataFrame containing the evaluation results.
     """
+    slice_performance = []
+    # do the full dataset
+    y_pred_inversed, y_pred, y_true = prepare_and_infer(data)
+    precision, recall, fbeta = compute_model_metrics(y_true, y_pred)
+    logger.info(
+        "the full dataset evaluates to pred=%s, rec=%s, fbeta=%s",
+        precision,
+        recall,
+        fbeta,
+    )
+    slice_performance.append((np.NaN, np.NaN, precision, recall, fbeta))
+    
+    # do the slcies
     obj_columns = list(data.select_dtypes(object).columns)
     logger.info(
         "evaluating the slice performance on columns %s", ", ".join(obj_columns)
     )
-    slice_performance = []
     for col in obj_columns:
         for col_val, df_slice in data.groupby(col, dropna=False):
             logger.info("columns in df_slice %s", ", ".join(df_slice.columns))

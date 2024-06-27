@@ -51,6 +51,10 @@ Further information can be found here:
 https://archive.ics.uci.edu/dataset/20/census+income
 
 ## Evaluation Data
+The metrics for the full dataset evaluate to:
+recision   recall    fbeta
+     1.0   0.117500  0.210291
+
 See model/slice_performance.txt for the evaluation of the model on slices of
 the data.
 

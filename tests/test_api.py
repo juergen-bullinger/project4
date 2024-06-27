@@ -90,12 +90,14 @@ record_4 = dict(
 
 # Write tests using the same syntax as with the requests module.
 def test_api_locally_get_root():
+    """ Test the get API """
     r = client.get("/")
     assert r.status_code == 200
     assert "greeting" in r.json() 
 
 
 def test_api_locally_inference_one_less_than_50():
+    """ Test an example with an income less then 50K """
     logger.info("-" * 40)
     logger.info("inference-one")
     r = client.post(
@@ -110,6 +112,7 @@ def test_api_locally_inference_one_less_than_50():
 
 
 def test_api_locally_inference_one_more_than_50():
+    """ Test an example with an income more then 50K """
     logger.info("-" * 40)
     logger.info("inference-one")
     r = client.post(
@@ -124,6 +127,7 @@ def test_api_locally_inference_one_more_than_50():
 
 
 def test_api_locally_inference_list():
+    """ Test the api for several classifications at once """
     logger.info("-" * 40)
     logger.info("inference-list")
     r = client.post(

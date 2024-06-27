@@ -9,13 +9,15 @@ Created on Thu Apr 18 10:39:17 2024
 """
 import numpy as np
 import pandas as pd
-from ml.data import process_data
+from ml.data import process_data, read_raw_data
 from ml import model
 
+import config as cfg
 
-def get_model_performance_on_slices(
-    ml_model, data, categorical_features, encoder, lb, unique_threshold=20
-):
+cfg.initialize_global_config()
+
+
+def get_model_performance_on_slices(ml_model, data, categorical_features, encoder, lb, unique_threshold=20):
     """
     Run model inferences on sliced data and return the measured performance.
 
@@ -53,6 +55,24 @@ def get_model_performance_on_slices(
         }
     )
     df_measurments.set_index(["column", "value"], inplace=True)
+
+    """# add the measurements for the whole dataset before slicing
+    X, y_true = process_data(
+        data,
+        categorical_features=categorical_features,
+        training=False,
+        encoder=encoder,
+        lb=lb,
+    )[:2] # skip the encoders
+    y_pred = model.inference(ml_model, X)
+    precision, recall, f1 = model.compute_model_metrics(y_true, y_pred)
+    df_measurments.loc[(np.NaN, np.NaN)] = {
+        "num_records": data.shape[0],
+        "precision": precision,
+        "recall": recall,
+        "f1": f1,
+    }"""
+
     for col in data.select_dtypes("object"):
         unique_values = data[col].unique()
         if len(unique_values) <= unique_threshold:
@@ -70,7 +90,8 @@ def get_model_performance_on_slices(
                     training=False,
                     encoder=encoder,
                     lb=lb,
-                )
+                    label="salary",
+                )[:2] # skip the encoders
                 y_pred = model.inference(ml_model, X)
                 precision, recall, f1 = model.compute_model_metrics(y_true, y_pred)
                 df_measurments.loc[(col, value)] = {
@@ -80,3 +101,16 @@ def get_model_performance_on_slices(
                     "f1": f1,
                 }
     return df_measurments
+
+
+if __name__ == "__main__":
+    from ml.model_high_level_api import MODEL, ENCODER, LABEL_BINARIZER, CATEGORIES, cfg
+    data = read_raw_data(cfg.CONFIG["data"]["test_file"])
+    df_measurements = get_model_performance_on_slices(
+        MODEL,
+        data,
+        CATEGORIES,
+        ENCODER,
+        LABEL_BINARIZER,
+        unique_threshold=100,
+    )

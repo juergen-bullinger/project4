@@ -1,4 +1,5 @@
         column                      value  precision   recall    fbeta
+           NaN                        NaN        1.0 0.117500 0.210291
      workclass                Federal-gov        1.0 0.093750 0.171429
      workclass                  Local-gov        1.0 0.084615 0.156028
      workclass               Never-worked        1.0 1.000000 1.000000
