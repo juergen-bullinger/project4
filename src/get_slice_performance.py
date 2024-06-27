@@ -10,7 +10,7 @@ Created on Tue Jun 25 11:48:22 2024
 
 import pandas as pd
 
-#from fastapi.staticfiles import StaticFiles
+# from fastapi.staticfiles import StaticFiles
 
 import config as cfg
 from ml.model_high_level_api import prepare_and_infer
@@ -28,7 +28,7 @@ CATEGORIES = None
 cfg.initialize_global_config()
 
 
-def evaluate_slice_performance(data : pd.DataFrame) -> pd.DataFrame:
+def evaluate_slice_performance(data: pd.DataFrame) -> pd.DataFrame:
     """
     Write the slice performance to the given file.
 
@@ -44,7 +44,9 @@ def evaluate_slice_performance(data : pd.DataFrame) -> pd.DataFrame:
     DataFrame containing the evaluation results.
     """
     obj_columns = list(data.select_dtypes(object).columns)
-    logger.info("evaluating the slice performance on columns %s", ", ".join(obj_columns))
+    logger.info(
+        "evaluating the slice performance on columns %s", ", ".join(obj_columns)
+    )
     slice_performance = []
     for col in obj_columns:
         for col_val, df_slice in data.groupby(col, dropna=False):
@@ -53,18 +55,19 @@ def evaluate_slice_performance(data : pd.DataFrame) -> pd.DataFrame:
             precision, recall, fbeta = compute_model_metrics(y_true, y_pred)
             logger.info(
                 "slice for %s(%s) evaluates to pred=%s, rec=%s, fbeta=%s",
-                col, col_val, precision, recall, fbeta
+                col,
+                col_val,
+                precision,
+                recall,
+                fbeta,
             )
             slice_performance.append((col, col_val, precision, recall, fbeta))
     return pd.DataFrame.from_records(
-        slice_performance,
-        columns=["column", "value", "precision", "recall", "fbeta"]
+        slice_performance, columns=["column", "value", "precision", "recall", "fbeta"]
     )
-        
-        
 
 
-def write_slice_performance(data : pd.DataFrame, file_name : str):
+def write_slice_performance(data: pd.DataFrame, file_name: str):
     """
     Write the slice performance to the given file.
 
@@ -84,11 +87,11 @@ def write_slice_performance(data : pd.DataFrame, file_name : str):
     with open(file_name, "wt") as fp:
         df_slice_performance.to_string(fp, index=False)
     return df_slice_performance
-    
+
 
 if __name__ == "__main__":
     # output the slice performance
     write_slice_performance(
         read_raw_data(cfg.CONFIG["data"]["test_file"]),
-        cfg.CONFIG["model"]["slice_performance"]
+        cfg.CONFIG["model"]["slice_performance"],
     )

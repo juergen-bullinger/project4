@@ -14,9 +14,10 @@ from utils import get_logger
 
 logger = get_logger(__name__)
 
+
 def read_raw_data(file_path) -> pd.DataFrame:
     """
-    Read a csv file in raw format (no preprocessing, no encoding and no 
+    Read a csv file in raw format (no preprocessing, no encoding and no
     splitting of feature- and label data)
 
     Parameters
@@ -30,11 +31,13 @@ def read_raw_data(file_path) -> pd.DataFrame:
     """
     logger.info("reading from file %s", file_path)
     data = pd.read_csv(
-        file_path, 
-        sep=', *', 
-        encoding="utf-8", 
+        file_path,
+        sep=", *",
+        encoding="utf-8",
         engine="python",
-        na_values={"?",}
+        na_values={
+            "?",
+        },
     )
     # replace - by _ in column names
     columns_norm = [col.replace("-", "_") for col in data.columns]
@@ -50,7 +53,7 @@ def write_raw_data(data, file_path) -> pd.DataFrame:
     Parameters
     ----------
     data : pd.DataFrame
-    
+
     file_path : str or Path
         File name of the csv file to be read.
 
@@ -60,9 +63,9 @@ def write_raw_data(data, file_path) -> pd.DataFrame:
     """
     logger.info("writing to file %s", file_path)
     data.to_csv(
-        file_path, 
-        sep=',', 
-        encoding="utf-8", 
+        file_path,
+        sep=",",
+        encoding="utf-8",
         na_rep="?",
         index=False,
     )
@@ -71,7 +74,7 @@ def write_raw_data(data, file_path) -> pd.DataFrame:
 def process_data(
     X, categorical_features=[], label=None, training=True, encoder=None, lb=None
 ):
-    """ Process the data used in the machine learning pipeline.
+    """Process the data used in the machine learning pipeline.
 
     Processes the data using one hot encoding for the categorical features and a
     label binarizer for the labels. This can be used in either training or

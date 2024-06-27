@@ -11,6 +11,7 @@ from pathlib import Path
 import pickle
 import logging
 
+
 def pickle_dump_object(pickle_obj, file_name_str):
     """
     Helper function to pickle an object to a file given as a string
@@ -49,7 +50,7 @@ def pickle_load_object(file_name_str):
     return pickle_obj
 
 
-def get_logger(name : str=None):
+def get_logger(name: str = None):
     """
     Get an initialized logger
 
@@ -62,5 +63,7 @@ def get_logger(name : str=None):
     -------
     Logger.
     """
-    logging.basicConfig(level=logging.DEBUG, format="%(asctime)-15s %(filename)15s: %(message)s")
+    logging.basicConfig(
+        level=logging.DEBUG, format="%(asctime)-15s %(filename)15s: %(message)s"
+    )
     return logging.getLogger(name)

@@ -23,7 +23,7 @@ record_1 = dict(
     capital_gain=2174,
     capital_loss=0,
     hours_per_week=40,
-    native_country="United-States"
+    native_country="United-States",
 )
 
 record_2 = dict(
@@ -40,7 +40,7 @@ record_2 = dict(
     capital_gain=2174,
     capital_loss=0,
     hours_per_week=40,
-    native_country="United-States"
+    native_country="United-States",
 )
 
 record_3 = dict(
@@ -57,7 +57,7 @@ record_3 = dict(
     capital_gain=0,
     capital_loss=0,
     hours_per_week=45,
-    native_country="United-States"
+    native_country="United-States",
 )
 
 
@@ -78,14 +78,13 @@ def check_inference_list():
     print("-" * 40)
     print("inference-list")
     response = rq.post(
-        "http://127.0.0.1:8000/inference-list",
-        json=[record_1, record_2, record_3]
+        "http://127.0.0.1:8000/inference-list", json=[record_1, record_2, record_3]
     )
 
     print(response)
     print(response.text)
     print(response.json())
 
+
 check_inference_one()
 check_inference_list()
-

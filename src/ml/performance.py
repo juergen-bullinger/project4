@@ -12,14 +12,10 @@ import pandas as pd
 from ml.data import process_data
 from ml import model
 
+
 def get_model_performance_on_slices(
-        ml_model, 
-        data,
-        categorical_features,
-        encoder, 
-        lb, 
-        unique_threshold=20
-    ):
+    ml_model, data, categorical_features, encoder, lb, unique_threshold=20
+):
     """
     Run model inferences on sliced data and return the measured performance.
 
@@ -27,20 +23,20 @@ def get_model_performance_on_slices(
     ------
     ml_model : ???
         Trained machine learning model.
-        
+
     data : pandas.DataFrame
         Data used for measuring the performance.
-        
+
     encoder : sklearn.OneHotEncoder
         One hot encoder trained during model training.
-    
+
     lb : sklearn.LabelBinarizer
         Label binarizer trained during training of the model.
-        
+
     unique_threshold : int
         Maximum number of unique values a column can have. All colums with
         more unique values are not considered.
-        
+
     Returns
     -------
     df_measurments : pandas.DataFrame
@@ -71,8 +67,8 @@ def get_model_performance_on_slices(
                 X, y_true = process_data(
                     slice_data,
                     categorical_features=categorical_features,
-                    training=False, 
-                    encoder=encoder, 
+                    training=False,
+                    encoder=encoder,
                     lb=lb,
                 )
                 y_pred = model.inference(ml_model, X)
@@ -84,4 +80,3 @@ def get_model_performance_on_slices(
                     "f1": f1,
                 }
     return df_measurments
-            

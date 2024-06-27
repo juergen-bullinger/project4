@@ -33,30 +33,21 @@ data.write_raw_data(df_test, cfg.CONFIG["data"]["test_file"])
 
 # Proces the test data with the process_data function.
 X_train, y_train, encoder, lb = process_data(
-    df_train, 
-    categorical_features=cfg.CONFIG["preprocessing"]["categories"], 
-    label="salary", 
-    training=True
+    df_train,
+    categorical_features=cfg.CONFIG["preprocessing"]["categories"],
+    label="salary",
+    training=True,
 )
 
 # Train and save a model.
 ml_model = model.train_model(
-    X_train, 
+    X_train,
     y_train,
     model_parameters=cfg.CONFIG["model"]["parameters"],
 )
 
-utils.pickle_dump_object(
-    ml_model, 
-    cfg.CONFIG["model"]["file"]
-)
+utils.pickle_dump_object(ml_model, cfg.CONFIG["model"]["file"])
 
-utils.pickle_dump_object(
-    encoder, 
-    cfg.CONFIG["preprocessing"]["one_hot_encoder_file"]
-)
+utils.pickle_dump_object(encoder, cfg.CONFIG["preprocessing"]["one_hot_encoder_file"])
 
-utils.pickle_dump_object(
-    lb, 
-    cfg.CONFIG["preprocessing"]["label_encoder_file"]
-)
+utils.pickle_dump_object(lb, cfg.CONFIG["preprocessing"]["label_encoder_file"])

@@ -10,7 +10,7 @@ Created on Tue Jun 25 12:22:16 2024
 
 from typing import List, Tuple
 
-#from fastapi.staticfiles import StaticFiles
+# from fastapi.staticfiles import StaticFiles
 
 import config as cfg
 from ml.model import inference
@@ -37,9 +37,7 @@ def refresh_model():
     """
     global MODEL, ENCODER, LABEL_BINARIZER, CATEGORIES
     MODEL = pickle_load_object(cfg.CONFIG["model"]["file"])
-    ENCODER = pickle_load_object(
-        cfg.CONFIG["preprocessing"]["one_hot_encoder_file"]
-    )
+    ENCODER = pickle_load_object(cfg.CONFIG["preprocessing"]["one_hot_encoder_file"])
     LABEL_BINARIZER = pickle_load_object(
         cfg.CONFIG["preprocessing"]["label_encoder_file"]
     )
@@ -61,9 +59,9 @@ def prepare_and_infer(data) -> Tuple[List[str], List[int], List[int]]:
 
     Returns
     -------
-    Tuple of three elements containing 
+    Tuple of three elements containing
         List[str]
-            Classification result in a list with elements 
+            Classification result in a list with elements
             like "<=50K" or ">50K".
         List[int]
             Raw classification result as int as returned from the model.
@@ -73,7 +71,7 @@ def prepare_and_infer(data) -> Tuple[List[str], List[int], List[int]]:
     """
     logger.info("received data with columns %s", ", ".join(data.columns))
     x, y_true = process_data(
-        data, 
+        data,
         categorical_features=CATEGORIES,
         label="salary",
         encoder=ENCODER,
@@ -85,5 +83,3 @@ def prepare_and_infer(data) -> Tuple[List[str], List[int], List[int]]:
     logger.info(f"of shape {y_pred.shape}")
     y_pred_inversed = LABEL_BINARIZER.inverse_transform(y_pred)
     return y_pred_inversed, y_pred, y_true
-
-

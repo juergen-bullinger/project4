@@ -5,12 +5,14 @@ Created on Thu Apr 18 10:39:17 2024
 
 @author: juergen
 """
+
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 from sklearn.ensemble import RandomForestClassifier
 
 from utils import get_logger
 
 logger = get_logger(__name__)
+
 
 # Optional: implement hyperparameter tuning.
 def train_model(X_train, y_train, model_parameters={}):
@@ -83,5 +85,3 @@ def inference(ml_model, X):
         Predictions from the model.
     """
     return ml_model.predict(X)
-
-
